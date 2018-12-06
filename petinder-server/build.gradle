@@ -1,0 +1,54 @@
+buildscript {
+	ext {
+		springBootVersion = '2.1.0.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+plugins {
+	id "org.flywaydb.flyway" version "5.2.2"
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.petinder'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 11
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt task 39
+	compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+	// https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310
+	compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.9.7'
+	implementation('org.springframework.boot:spring-boot-starter-aop')
+	implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+	implementation('org.springframework.boot:spring-boot-starter-hateoas')
+	implementation('org.springframework.boot:spring-boot-starter-web')
+	compileOnly('org.projectlombok:lombok')
+	testImplementation('org.springframework.boot:spring-boot-starter-test')
+	compile 'org.flywaydb:flyway-core:5.2.2'
+	compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.13'
+    //I had add spring security dependencies
+	compile group: 'org.springframework.security', name: 'spring-security-web', version: '5.1.1.RELEASE'
+	compile group: 'org.springframework.security', name: 'spring-security-config', version: '5.1.1.RELEASE'
+}
+
+// https://flywaydb.org/documentation/configfiles
+flyway {
+	// Url same as in application.properties
+	url = 'jdbc:mysql://192.168.99.100:3306/devel?useSSL=false'
+	user = 'root'
+	password = 'root'
+}
